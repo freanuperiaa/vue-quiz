@@ -21,9 +21,6 @@
                 >
                     Submit
                 </b-button>
-                <b-button variant="success" class="button-next"
-                    @click="nextQuestion"
-                >Next</b-button>
         </b-jumbotron>
     </div>
 </template>
@@ -78,6 +75,9 @@ export default {
              
         },
         submitAnswer() {
+            if (this.selectedIndex === null){
+                return
+            }
             let isCorrect = false;
             if (this.shuffledAnswers[this.selectedIndex] === this.correctAnswer) {
                 isCorrect  = true;
