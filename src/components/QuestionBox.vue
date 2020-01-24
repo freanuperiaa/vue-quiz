@@ -17,9 +17,8 @@
                 </b-list-group>
 
                 <b-button variant="primary"
-                    
+                    @click="submitAnswer"   
                 >
-                <!-- ADD submitAnswer() method -->
                     Submit
                 </b-button>
                 <b-button variant="success" class="button-next"
@@ -36,11 +35,12 @@ export default {
     props: {
         currentQuestion: Object,
         nextQuestion: Function,
+        increment: Function,
     },
     data: function() {
         return {
             selectedIndex: null,
-            shuffledAnswers: []
+            shuffledAnswers: [],
         };
     },
     computed: {
@@ -49,6 +49,9 @@ export default {
             answers.push(this.currentQuestion.correct_answer);
             return answers;
         },
+        correctAnswer() {
+            return this.answers[3];
+        }
     },
     watch : {
         currentQuestion: {
@@ -73,6 +76,15 @@ export default {
             let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer];
                 this.shuffledAnswers = _.shuffle(answers);
              
+        },
+        submitAnswer() {
+            let isCorrect = false;
+            if (this.shuffledAnswers[this.selectedIndex] === this.correctAnswer) {
+                isCorrect  = true;
+                console.log(isCorrect);
+            }
+            this.increment(isCorrect);
+            this.nextQuestion();
         }
     },
 }
